@@ -20,7 +20,7 @@ class CreateUserCommandTest extends KernelTestCase
             'command' => $command->getName(),
 
             // pass arguments to the helper
-            'csv_file_path' => 'test.csv',
+            'csv_save_path' => 'test.csv',
 
             // prefix the key with two dashes when passing options,
             // e.g: '--some-option' => 'option_value',
