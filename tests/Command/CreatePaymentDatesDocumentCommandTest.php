@@ -28,6 +28,7 @@ class CreateUserCommandTest extends KernelTestCase
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
+        $this->assertContains('Will calculate payment dates now and save them to given CSV path: test.csv', $output);
         $this->assertContains('done!', $output);
     }
 }
