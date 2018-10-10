@@ -10,17 +10,17 @@ class PaymentDatesCalculator
 
     }
 
-    protected function getUpcomingMonths(string $yearMonth, int $monthsCount): array
+    private function getUpcomingMonths(string $yearMonth, int $monthsCount): array
     {
 
     }
 
-    protected function getBasicPayDate(string $yearMonth): \DateTime
+    private function getBasicPayDate(string $yearMonth): \DateTime
     {
 
     }
 
-    protected function getBonusesPayDate(string $yearMonth): \DateTime
+    private function getBonusesPayDate(string $yearMonth): \DateTime
     {
 
     }

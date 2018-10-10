@@ -2,8 +2,6 @@
 
 namespace App\Service;
 
-use App\Service\DocumentGenerator;
-
 class CSVDocumentGenerator extends DocumentGenerator
 {
 
