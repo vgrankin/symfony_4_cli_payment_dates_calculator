@@ -8,9 +8,11 @@
         "symfony/console": "*",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "*",
+        "symfony/serializer": "*",
         "symfony/yaml": "*"
     },
     "require-dev": {
+        "mikey179/vfsStream": "^1.6",
         "symfony/dotenv": "*",
         "symfony/phpunit-bridge": "*"
     },

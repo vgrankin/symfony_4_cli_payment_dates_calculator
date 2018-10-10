@@ -32,11 +32,13 @@ class PaymentDatesCalculator
      * by given months-count and month-of-the-year to start range right after
      *
      * @param string $yearMonth The following format is expected: "2018-10"
-     *                          So the returned range for this example will begin right after
-     *                          month 10 and will start with month 11
-     * @param int $monthsCount Range size. Specifies how many future dates we want in our range.
-     * @return \DatePeriod Represents a date period. A date period allows iteration over a set of
-     *                     dates and times, recurring at regular intervals, over a given period.
+     *                          So the returned range for this example will begin right
+     *                          after month 10 and will start with month 11
+     * @param int $monthsCount Range size. Specifies how many future dates we want
+     *                         in our range.
+     * @return \DatePeriod Represents a date period. A date period allows iteration over
+     *                     a set of dates and times, recurring at regular intervals, over
+     *                     a given period.
      * @throws \Exception
      */
     private function getUpcomingMonths(string $yearMonth, int $monthsCount): \DatePeriod
@@ -84,8 +86,9 @@ class PaymentDatesCalculator
      *
      * Business rules to calculate bonuses pay date are as follows:
      *
-     *      On the 12th of every month bonuses are paid for the previous month, unless that day
-     *      is a weekend. In that case, they are paid the first Tuesday after the 12th
+     *      On the 12th of every month bonuses are paid for the previous month,
+     *      unless that day is a weekend. In that case, they are paid the first
+     *      Tuesday after the 12th
      *
      * @param \DateTime $date
      * @return \DateTime

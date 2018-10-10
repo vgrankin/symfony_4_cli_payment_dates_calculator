@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Service\CSVDocumentGenerator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -10,6 +11,15 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class CreatePaymentDatesDocumentCommand extends Command
 {
+    private $csvGenerator;
+
+    public function __construct(CSVDocumentGenerator $csvGenerator)
+    {
+        $this->csvGenerator = $csvGenerator;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this

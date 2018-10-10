@@ -4,7 +4,5 @@ namespace App\Service;
 
 abstract class DocumentGenerator
 {
-    public abstract function generateDocument($path, array $data);
-
-    protected abstract function saveDocument($path);
+    public abstract function generateDocument(string $path, array $data): void;
 }

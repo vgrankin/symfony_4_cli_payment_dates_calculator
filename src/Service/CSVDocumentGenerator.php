@@ -2,16 +2,28 @@
 
 namespace App\Service;
 
+use Symfony\Component\Serializer\SerializerInterface;
+
 class CSVDocumentGenerator extends DocumentGenerator
 {
+    private $serializer;
 
-    public function generateDocument($path, array $data)
+    public function __construct(SerializerInterface $serializer)
     {
-        // TODO: Implement generateDocument() method.
+        $this->serializer = $serializer;
     }
 
-    protected function saveDocument($path)
+    /**
+     * Generate/save CSV document by given data to given path
+     *
+     * @param string $path
+     * @param array $data
+     */
+    public function generateDocument(string $path, array $data): void
     {
-        // TODO: Implement saveDocument() method.
+        file_put_contents(
+            $path,
+            $this->serializer->encode($data, 'csv')
+        );
     }
 }
