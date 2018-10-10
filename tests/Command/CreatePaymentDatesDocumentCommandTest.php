@@ -14,13 +14,13 @@ class CreateUserCommandTest extends KernelTestCase
         $kernel = static::createKernel();
         $application = new Application($kernel);
 
-        $command = $application->find('app:create-user');
+        $command = $application->find('app:create-payment-dates-csv-document');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command' => $command->getName(),
 
             // pass arguments to the helper
-            'username' => 'Wouter',
+            'csv_file_path' => 'test.csv',
 
             // prefix the key with two dashes when passing options,
             // e.g: '--some-option' => 'option_value',
@@ -28,8 +28,6 @@ class CreateUserCommandTest extends KernelTestCase
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
-        $this->assertContains('Username: Wouter', $output);
-
-        // ...
+        $this->assertContains('done!', $output);
     }
 }

@@ -33,6 +33,6 @@ class CreatePaymentDatesDocumentCommand extends Command
         $text = 'Will calculate payment dates now and save them to given CSV path: ' . $input->getArgument('csv_save_path');
         $output->writeln($text);
 
-
+        $output->writeln('done!');
     }
 }
