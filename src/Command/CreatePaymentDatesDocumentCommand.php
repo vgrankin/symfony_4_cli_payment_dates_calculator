@@ -3,23 +3,41 @@
 namespace App\Command;
 
 use App\Service\CSVDocumentGenerator;
+use App\Service\PaymentDatesCalculator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
 
+/**
+ * This is a Command class to create a CSV document with payment dates.
+ *
+ * Please see documentation on how Commands are working in Symfony 4.1 here:
+ * https://symfony.com/doc/current/console.html
+ *
+ */
 class CreatePaymentDatesDocumentCommand extends Command
 {
-    private $csvGenerator;
+    /**
+     * Upcoming months to generate payment (base and bonuses) dates for
+     */
+    const MONTHS_COUNT = 12;
 
-    public function __construct(CSVDocumentGenerator $csvGenerator)
+    private $csvGenerator;
+    private $calculator;
+
+    public function __construct(PaymentDatesCalculator $calculator, CSVDocumentGenerator $csvGenerator)
     {
         $this->csvGenerator = $csvGenerator;
+        $this->calculator = $calculator;
 
         parent::__construct();
     }
 
+    /**
+     * Configure the name of the command, define help message and the input options and arguments
+     */
     protected function configure()
     {
         $this
@@ -31,20 +49,33 @@ class CreatePaymentDatesDocumentCommand extends Command
             // the "--help" option
             ->setHelp(
                 'This command allows you to generate CSV file'
-                . ' which contains payment dates for telesales staff for the next 12 months ...'
+                . ' which contains payment dates for telesales staff for the next '
+                . self::MONTHS_COUNT . ' months ...'
             );
 
         $this
             ->addArgument('csv_save_path', InputArgument::REQUIRED, 'CSV file save path (including file name)?');
     }
 
+    /**
+     * Generate CSV document with payment dates to specified path
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|null|void
+     * @throws \Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $text = 'Will calculate payment dates now and save them to given CSV path: ' . $input->getArgument('csv_save_path');
+        $text = 'Will calculate payment dates now and save them to given CSV path: '
+            . $input->getArgument('csv_save_path');
         $output->writeln($text);
 
+        $yearMonth = date("Y-m");
+        $data = $this->calculator->getPaymentDatesTable($yearMonth, self::MONTHS_COUNT);
+        $this->csvGenerator->generateDocument($input->getArgument('csv_save_path'), $data);
 
-
-        $output->writeln('done!');
+        $output->writeln('Done! You can find generated CSV document in the path specified!');
+        $output->writeln('Have a great day & Cheers! :-)');
     }
 }
