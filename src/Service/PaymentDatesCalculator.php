@@ -2,19 +2,19 @@
 
 namespace App\Service;
 
-use Prophecy\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class PaymentDatesCalculator extends BaseService
+class PaymentDatesCalculator extends AbstractBaseService
 {
     /**
      * Get payment dates table for the next $monthsCount months.
      *
-     * @param string $yearMonth The following format is expected: "2018-10"
-     * @param int $monthsCount How many upcoming months we want to get payment dates for
+     * @param string $yearMonth   The following format is expected: "2018-10"
+     * @param int    $monthsCount How many upcoming months we want to get payment dates for
+     *
      * @return array List of basic and bonuses payment dates for given months count
+     *
      * @throws \Exception
      */
     public function getPaymentDatesTable(string $yearMonth, int $monthsCount): array
@@ -25,27 +25,33 @@ class PaymentDatesCalculator extends BaseService
             throw new \InvalidArgumentException(implode("; ", $errors));
         }
 
-        return array_map(function(\DateTime $date){
-            return [
-                'month_name' => $date->format('F'),
-                'basic_pay_date' => $this->getBasicPayDate($date)->format('Y-m-d'),
-                'bonuses_pay_date' => $this->getBonusesPayDate($date)->format('Y-m-d'),
-            ];
-        }, iterator_to_array($this->getUpcomingMonths($yearMonth, $monthsCount)));
+        return array_map(
+            function (\DateTime $date) {
+                return [
+                    'month_name' => $date->format('F'),
+                    'basic_pay_date' => $this->getBasicPayDate($date)->format('Y-m-d'),
+                    'bonuses_pay_date' => $this->getBonusesPayDate($date)->format('Y-m-d'),
+                ];
+            },
+            iterator_to_array($this->getUpcomingMonths($yearMonth, $monthsCount))
+        );
     }
 
     /**
      * Validate arguments and get violations (if any)
      *
      * @param string $yearMonth
-     * @param int $monthsCount
+     * @param int    $monthsCount
+     *
      * @return ConstraintViolationListInterface
      */
-    public function getGetPaymentDatesTableViolations(string $yearMonth, int $monthsCount): ConstraintViolationListInterface
-    {
+    public function getGetPaymentDatesTableViolations(
+        string $yearMonth,
+        int $monthsCount
+    ): ConstraintViolationListInterface {
         $data = [
             'year_month' => $yearMonth,
-            'months_count' => $monthsCount
+            'months_count' => $monthsCount,
         ];
 
         return $this->getViolations($data, $this->getValidationRules());
@@ -53,20 +59,26 @@ class PaymentDatesCalculator extends BaseService
 
     /**
      * Validation rules to validate data required to create payment dates table.
+     *
+     * @return array
      */
-    private function getValidationRules()
+    private function getValidationRules(): array
     {
         return [
-            'year_month' => new Assert\DateTime([
-                'format' => 'Y-m',
-                'message' => 'Unexpected $yearMonth value. `Y-m` format is expected.'
-            ]),
-            'months_count' => new Assert\Range([
-                'min' => 1,
-                'max' => 12,
-                'minMessage' => 'Months count must be at least {{ limit }}',
-                'maxMessage' => 'Months count must not be greater than {{ limit }}',
-            ])
+            'year_month' => new Assert\DateTime(
+                [
+                    'format' => 'Y-m',
+                    'message' => 'Unexpected $yearMonth value. `Y-m` format is expected.',
+                ]
+            ),
+            'months_count' => new Assert\Range(
+                [
+                    'min' => 1,
+                    'max' => 12,
+                    'minMessage' => 'Months count must be at least {{ limit }}',
+                    'maxMessage' => 'Months count must not be greater than {{ limit }}',
+                ]
+            ),
         ];
     }
 
@@ -74,14 +86,16 @@ class PaymentDatesCalculator extends BaseService
      * Get range/list of upcoming dates/months (in terms of \DatePeriod)
      * by given months-count and month-of-the-year to start range right after
      *
-     * @param string $yearMonth The following format is expected: "2018-10"
-     *                          So the returned range for this example will begin right
-     *                          after month 10 and will start with month 11
-     * @param int $monthsCount Range size. Specifies how many future dates we want
-     *                         in our range.
+     * @param string $yearMonth   The following format is expected: "2018-10"
+     *                            So the returned range for this example will begin right
+     *                            after month 10 and will start with month 11
+     * @param int    $monthsCount Range size. Specifies how many future dates we want
+     *                            in our range.
+     *
      * @return \DatePeriod Represents a date period. A date period allows iteration over
      *                     a set of dates and times, recurring at regular intervals, over
      *                     a given period.
+     *
      * @throws \Exception
      */
     private function getUpcomingMonths(string $yearMonth, int $monthsCount): \DatePeriod
@@ -108,6 +122,7 @@ class PaymentDatesCalculator extends BaseService
      *      the payment date is Friday the 30th. The same logic applies to Sunday.
      *
      * @param \DateTime $date Date to extract month to calculate-basic-pay-for from.
+     *
      * @return \DateTime
      */
     private function getBasicPayDate(\DateTime $date): \DateTime
@@ -134,6 +149,7 @@ class PaymentDatesCalculator extends BaseService
      *      Tuesday after the 12th
      *
      * @param \DateTime $date
+     *
      * @return \DateTime
      */
     private function getBonusesPayDate(\DateTime $date): \DateTime
@@ -146,7 +162,7 @@ class PaymentDatesCalculator extends BaseService
         $saturdaySundayDayNumbers = [0, 6];
         $tuesdayDayNumber = 2;
         if (in_array($date->format('w'), $saturdaySundayDayNumbers)) {
-            while ($date->format('w') != $tuesdayDayNumber) {
+            while ($date->format('w') !== $tuesdayDayNumber) {
                 $date->modify('+1 day');
             }
         }

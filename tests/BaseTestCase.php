@@ -13,6 +13,7 @@ class BaseTestCase extends KernelTestCase
         $container = self::$kernel->getContainer();
         // gets the special container that allows fetching private services
         $container = self::$container;
+
         return $container;
     }
 

@@ -49,8 +49,8 @@ class CreatePaymentDatesDocumentCommand extends Command
             // the "--help" option
             ->setHelp(
                 'This command allows you to generate CSV file'
-                . ' which contains payment dates for telesales staff for the next '
-                . self::MONTHS_COUNT . ' months ...'
+                .' which contains payment dates for telesales staff for the next '
+                .self::MONTHS_COUNT.' months ...'
             );
 
         $this
@@ -62,37 +62,39 @@ class CreatePaymentDatesDocumentCommand extends Command
      *
      * @param InputInterface $input
      * @param OutputInterface $output
+     *
      * @return int|null|void
+     *
      * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $text = '<info>Will calculate payment dates now and save them to given CSV path: '
-            . '<options=bold>' . $input->getArgument('csv_save_path') . '</></info>';
+            .'<options=bold>'.$input->getArgument('csv_save_path').'</></info>';
         $output->writeln($text);
 
         try {
             $yearMonth = date("Y-m");
             $data = $this->calculator->getPaymentDatesTable($yearMonth, self::MONTHS_COUNT);
             $res = $this->csvGenerator->generateDocument($input->getArgument('csv_save_path'), $data);
-            if ($res !== false) {
+            if (false !== $res) {
                 $output->writeln('<info>Done! You can find generated CSV document in the path specified!</info>');
                 $output->writeln('<comment>Have a great day & Cheers! :-)</comment>');
             } else {
                 $output->writeln(
                     '<error>'
-                    . 'Unable to save CSV document. '
-                    . 'Please fix your path (make sure to use existing directory with required permissions) '
-                    . 'or try another one!'
-                    . '</error>'
+                    .'Unable to save CSV document. '
+                    .'Please fix your path (make sure to use existing directory with required permissions) '
+                    .'or try another one!'
+                    .'</error>'
                 );
             }
         } catch (\Exception $e) {
             $output->writeln(
                 '<error>'
-                . 'Unable to save CSV document. '
-                . 'Please try again using different path or contact system administrator!'
-                . '</error>'
+                .'Unable to save CSV document. '
+                .'Please try again using different path or contact system administrator!'
+                .'</error>'
             );
         }
     }

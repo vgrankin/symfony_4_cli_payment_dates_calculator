@@ -45,10 +45,10 @@ class CSVDocumentGeneratorTest extends BaseTestCase
 
         $this->assertFalse(vfsStreamWrapper::getRoot()->hasChild($fileName));
 
-        $csvGenerator->generateDocument(vfsStream::url('testDir') . '/' . $fileName, $table);
+        $csvGenerator->generateDocument(vfsStream::url('testDir').'/'.$fileName, $table);
         $this->assertTrue(vfsStreamWrapper::getRoot()->hasChild($fileName));
 
-        $csv = file_get_contents(vfsStream::url('testDir') . '/' . $fileName);
+        $csv = file_get_contents(vfsStream::url('testDir').'/'.$fileName);
 
         $serializer = $container
             ->get('serializer');
@@ -58,18 +58,18 @@ class CSVDocumentGeneratorTest extends BaseTestCase
             [
                 'month_name' => 'January',
                 'basic_pay_date' => '2019-01-31',
-                'bonuses_pay_date' => '2019-01-15'
+                'bonuses_pay_date' => '2019-01-15',
             ],
             [
                 'month_name' => 'February',
                 'basic_pay_date' => '2019-02-28',
-                'bonuses_pay_date' => '2019-02-12'
+                'bonuses_pay_date' => '2019-02-12',
             ],
             [
                 'month_name' => 'March',
                 'basic_pay_date' => '2019-03-29',
-                'bonuses_pay_date' => '2019-03-12'
-            ]
+                'bonuses_pay_date' => '2019-03-12',
+            ],
         ];
 
         $this->assertEquals($expectedData, $data);

@@ -79,7 +79,9 @@ class PaymentDatesCalculatorTest extends TestCase
     public function testGetPaymentDatesTable____when_Calling_With_Invalid_Parameters____InvalidArgumentException_With_Corresponding_Message_Is_Thrown()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unexpected $yearMonth value. `Y-m` format is expected.; Months count must not be greater than 12');
+        $this->expectExceptionMessage(
+            'Unexpected $yearMonth value. `Y-m` format is expected.; Months count must not be greater than 12'
+        );
 
         $calculator = new PaymentDatesCalculator();
         $yearMonth = "2018-ERROR";
