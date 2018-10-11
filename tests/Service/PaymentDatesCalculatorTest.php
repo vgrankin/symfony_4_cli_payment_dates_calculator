@@ -75,4 +75,15 @@ class PaymentDatesCalculatorTest extends TestCase
         $this->assertEquals('2019-09-12', $bonusesPayDates[10]);
         $this->assertEquals('2019-10-15', $bonusesPayDates[11]);
     }
+
+    public function testGetPaymentDatesTable____when_Calling_With_Invalid_Parameters____InvalidArgumentException_With_Corresponding_Message_Is_Thrown()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unexpected $yearMonth value. `Y-m` format is expected.; Months count must not be greater than 12');
+
+        $calculator = new PaymentDatesCalculator();
+        $yearMonth = "2018-ERROR";
+        $monthsCount = 15;
+        $calculator->getPaymentDatesTable($yearMonth, $monthsCount);
+    }
 }

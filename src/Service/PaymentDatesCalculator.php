@@ -2,8 +2,12 @@
 
 namespace App\Service;
 
+use Prophecy\Exception\InvalidArgumentException;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class PaymentDatesCalculator
+class PaymentDatesCalculator extends BaseService
 {
     /**
      * Get payment dates table for the next $monthsCount months.
@@ -15,16 +19,55 @@ class PaymentDatesCalculator
      */
     public function getPaymentDatesTable(string $yearMonth, int $monthsCount): array
     {
-        $table = [];
-        foreach($this->getUpcomingMonths($yearMonth, $monthsCount) as $date){
-            $table[] = [
+        $violations = $this->getGetPaymentDatesTableViolations($yearMonth, $monthsCount);
+        if (sizeof($violations)) {
+            $errors = $this->getErrors($violations);
+            throw new \InvalidArgumentException(implode("; ", $errors));
+        }
+
+        return array_map(function(\DateTime $date){
+            return [
                 'month_name' => $date->format('F'),
                 'basic_pay_date' => $this->getBasicPayDate($date)->format('Y-m-d'),
                 'bonuses_pay_date' => $this->getBonusesPayDate($date)->format('Y-m-d'),
             ];
-        }
+        }, iterator_to_array($this->getUpcomingMonths($yearMonth, $monthsCount)));
+    }
 
-        return $table;
+    /**
+     * Validate arguments and get violations (if any)
+     *
+     * @param string $yearMonth
+     * @param int $monthsCount
+     * @return ConstraintViolationListInterface
+     */
+    public function getGetPaymentDatesTableViolations(string $yearMonth, int $monthsCount): ConstraintViolationListInterface
+    {
+        $data = [
+            'year_month' => $yearMonth,
+            'months_count' => $monthsCount
+        ];
+
+        return $this->getViolations($data, $this->getValidationRules());
+    }
+
+    /**
+     * Validation rules to validate data required to create payment dates table.
+     */
+    private function getValidationRules()
+    {
+        return [
+            'year_month' => new Assert\DateTime([
+                'format' => 'Y-m',
+                'message' => 'Unexpected $yearMonth value. `Y-m` format is expected.'
+            ]),
+            'months_count' => new Assert\Range([
+                'min' => 1,
+                'max' => 12,
+                'minMessage' => 'Months count must be at least {{ limit }}',
+                'maxMessage' => 'Months count must not be greater than {{ limit }}',
+            ])
+        ];
     }
 
     /**
@@ -73,7 +116,7 @@ class PaymentDatesCalculator
         $date->modify('last day of this month');
 
         // fix payment day according to business rules (if appropriate)
-        $saturdaySundayDayNumbers = [0,6];
+        $saturdaySundayDayNumbers = [0, 6];
         while (in_array($date->format('w'), $saturdaySundayDayNumbers)) {
             $date->modify('-1 day');
         }
@@ -100,7 +143,7 @@ class PaymentDatesCalculator
         $date->setDate($date->format('Y'), $date->format('m'), $paymentDay);
 
         // fix payment day according to business rules (if appropriate)
-        $saturdaySundayDayNumbers = [0,6];
+        $saturdaySundayDayNumbers = [0, 6];
         $tuesdayDayNumber = 2;
         if (in_array($date->format('w'), $saturdaySundayDayNumbers)) {
             while ($date->format('w') != $tuesdayDayNumber) {

@@ -68,7 +68,7 @@ class CSVDocumentGeneratorTest extends BaseTestCase
             [
                 'month_name' => 'March',
                 'basic_pay_date' => '2019-03-29',
-                'bonuses_pay_date' => '2019-03-14'
+                'bonuses_pay_date' => '2019-03-12'
             ]
         ];
 

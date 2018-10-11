@@ -54,7 +54,7 @@ class CreatePaymentDatesDocumentCommand extends Command
             );
 
         $this
-            ->addArgument('csv_save_path', InputArgument::REQUIRED, 'CSV file save path (including file name)?');
+            ->addArgument('csv_save_path', InputArgument::REQUIRED, 'CSV file save path (including file name)');
     }
 
     /**
@@ -71,11 +71,29 @@ class CreatePaymentDatesDocumentCommand extends Command
             . '<options=bold>' . $input->getArgument('csv_save_path') . '</></info>';
         $output->writeln($text);
 
-        $yearMonth = date("Y-m");
-        $data = $this->calculator->getPaymentDatesTable($yearMonth, self::MONTHS_COUNT);
-        $this->csvGenerator->generateDocument($input->getArgument('csv_save_path'), $data);
-
-        $output->writeln('<info>Done! You can find generated CSV document in the path specified!</info>');
-        $output->writeln('<comment>Have a great day & Cheers! :-)</comment>');
+        try {
+            $yearMonth = date("Y-m");
+            $data = $this->calculator->getPaymentDatesTable($yearMonth, self::MONTHS_COUNT);
+            $res = $this->csvGenerator->generateDocument($input->getArgument('csv_save_path'), $data);
+            if ($res !== false) {
+                $output->writeln('<info>Done! You can find generated CSV document in the path specified!</info>');
+                $output->writeln('<comment>Have a great day & Cheers! :-)</comment>');
+            } else {
+                $output->writeln(
+                    '<error>'
+                    . 'Unable to save CSV document. '
+                    . 'Please fix your path (make sure to use existing directory with required permissions) '
+                    . 'or try another one!'
+                    . '</error>'
+                );
+            }
+        } catch (\Exception $e) {
+            $output->writeln(
+                '<error>'
+                . 'Unable to save CSV document. '
+                . 'Please try again using different path or contact system administrator!'
+                . '</error>'
+            );
+        }
     }
 }

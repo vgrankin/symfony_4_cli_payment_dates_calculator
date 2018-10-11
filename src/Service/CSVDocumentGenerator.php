@@ -16,14 +16,19 @@ class CSVDocumentGenerator extends DocumentGenerator
     /**
      * Generate/save CSV document by given data to given path
      *
-     * @param string $path
-     * @param array $data
+     * @param string $path Path to save document to (including actual file name)
+     * @param array $data Array which contains rows of named columns (associative sub-arrays) to export to CSV
+     * @return bool|int The number of bytes that were written to the file, or false on failure.
      */
-    public function generateDocument(string $path, array $data): void
+    public function generateDocument(string $path, array $data)
     {
-        file_put_contents(
-            $path,
-            $this->serializer->encode($data, 'csv')
-        );
+        try {
+            return file_put_contents(
+                $path,
+                $this->serializer->encode($data, 'csv')
+            );
+        } catch(\Exception $e) {
+            return false;
+        }
     }
 }
