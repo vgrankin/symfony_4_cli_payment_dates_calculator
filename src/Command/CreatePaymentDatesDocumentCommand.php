@@ -67,15 +67,15 @@ class CreatePaymentDatesDocumentCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $text = 'Will calculate payment dates now and save them to given CSV path: '
-            . $input->getArgument('csv_save_path');
+        $text = '<info>Will calculate payment dates now and save them to given CSV path: '
+            . '<options=bold>' . $input->getArgument('csv_save_path') . '</></info>';
         $output->writeln($text);
 
         $yearMonth = date("Y-m");
         $data = $this->calculator->getPaymentDatesTable($yearMonth, self::MONTHS_COUNT);
         $this->csvGenerator->generateDocument($input->getArgument('csv_save_path'), $data);
 
-        $output->writeln('Done! You can find generated CSV document in the path specified!');
-        $output->writeln('Have a great day & Cheers! :-)');
+        $output->writeln('<info>Done! You can find generated CSV document in the path specified!</info>');
+        $output->writeln('<comment>Have a great day & Cheers! :-)</comment>');
     }
 }
