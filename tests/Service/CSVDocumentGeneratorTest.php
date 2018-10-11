@@ -3,14 +3,13 @@
 namespace App\Tests\Service;
 
 use App\Service\PaymentDatesCalculator;
-use App\Tests\BaseTestCase;
+use App\Tests\AbstractBaseTestCase;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamException;
 use org\bovigo\vfs\vfsStreamWrapper;
-use PHPUnit\Framework\TestCase;
 
-class CSVDocumentGeneratorTest extends BaseTestCase
+class CSVDocumentGeneratorTest extends AbstractBaseTestCase
 {
     public function setUp()
     {

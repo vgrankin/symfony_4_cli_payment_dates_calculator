@@ -3,7 +3,7 @@
 namespace App\Tests\Command;
 
 use App\Service\PaymentDatesCalculator;
-use App\Tests\BaseTestCase;
+use App\Tests\AbstractBaseTestCase;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamException;
@@ -15,7 +15,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * Testing Commands documentation:
  * https://symfony.com/doc/current/console.html#testing-commands
  */
-class CreateUserCommandTest extends BaseTestCase
+class CreateUserCommandTest extends AbstractBaseTestCase
 {
     public function setUp()
     {

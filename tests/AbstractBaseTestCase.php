@@ -4,7 +4,7 @@ namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class BaseTestCase extends KernelTestCase
+abstract class AbstractBaseTestCase extends KernelTestCase
 {
     protected function getPrivateContainer()
     {
@@ -15,10 +15,5 @@ class BaseTestCase extends KernelTestCase
         $container = self::$container;
 
         return $container;
-    }
-
-    protected function tearDown()
-    {
-        parent::tearDown();
     }
 }
