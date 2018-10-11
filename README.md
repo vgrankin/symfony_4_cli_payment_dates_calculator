@@ -48,7 +48,7 @@ logic requirements.
 ## Implementation details:
 
 - Current application is based on Symfony skeleton project and its Console component.
-  That said, all business logic is coded from scratch. Symfony is only used a good starting point/base. 
+  That said, all business logic is coded from scratch. Symfony is only used as a good starting point/base. 
 - In terms of workflow the following design solution is used: Command 
   (App\Command\CreatePaymentDatesDocumentCommand) is used as a controller to execute business logic 
   to generate required CSV document. To make Command thin we use services (which in turn call other services). 
@@ -65,14 +65,14 @@ logic requirements.
 ## Usage/testing:
 
 - Usage is very simple. You just need to go to project directory and run the following command from console:
-`php bin/console D:/test.csv` where test.csv is a full path of a file. In this case output will be 
+`php bin/cli D:/test.csv` where test.csv is a full path of a file. In this case output will be 
 saved to D:/test.csv. Before running this CLI app make sure directory you save 
 to exists and that you have required permissions. If everything is correct CSV file with payment dates 
 for the next 12 months will be saved to specified location.
 
 Here is an example on Windows 10:
 
-    D:\dev\payment-dates-calculator>php bin/console D:/test.csv
+    D:\dev\payment-dates-calculator>php bin/cli D:/test.csv
     Will calculate payment dates now and save them to given CSV path: D:/test.csv
     Done! You can find generated CSV document in the path specified!
     Have a great day & Cheers! :-)

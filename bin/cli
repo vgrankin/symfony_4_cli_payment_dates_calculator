@@ -36,4 +36,5 @@ if ($debug) {
 
 $kernel = new Kernel($env, $debug);
 $application = new Application($kernel);
+$application->setDefaultCommand('app:create-payment-dates-csv-document', true);
 $application->run($input);
