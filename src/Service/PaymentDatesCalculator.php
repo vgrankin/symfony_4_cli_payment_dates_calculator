@@ -10,8 +10,8 @@ class PaymentDatesCalculator extends AbstractBaseService
     /**
      * Get payment dates table for the next $monthsCount months.
      *
-     * @param string $yearMonth The following format is expected: "2018-10"
-     * @param int $monthsCount How many upcoming months we want to get payment dates for
+     * @param string $yearMonth   The following format is expected: "2018-10"
+     * @param int    $monthsCount How many upcoming months we want to get payment dates for
      *
      * @return array List of basic and bonuses payment dates for given months count
      *
@@ -41,7 +41,7 @@ class PaymentDatesCalculator extends AbstractBaseService
      * Validate arguments and get violations (if any)
      *
      * @param string $yearMonth
-     * @param int $monthsCount
+     * @param int    $monthsCount
      *
      * @return ConstraintViolationListInterface
      */
@@ -86,10 +86,10 @@ class PaymentDatesCalculator extends AbstractBaseService
      * Get range/list of upcoming dates/months (in terms of \DatePeriod)
      * by given months-count and month-of-the-year to start range right after
      *
-     * @param string $yearMonth The following format is expected: "2018-10"
+     * @param string $yearMonth   The following format is expected: "2018-10"
      *                            So the returned range for this example will begin right
      *                            after month 10 and will start with month 11
-     * @param int $monthsCount Range size. Specifies how many future dates we want
+     * @param int    $monthsCount Range size. Specifies how many future dates we want
      *                            in our range.
      *
      * @return \DatePeriod Represents a date period. A date period allows iteration over
