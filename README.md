@@ -79,6 +79,7 @@ Here is an example on Windows 10:
 
 - To run all tests execute this command from project's root folder: 
 "php bin/phpunit" 
+* note that phpunit may ask you to enable some PHP extensions in case they are disabled on your system
 
 ## Notes
 
