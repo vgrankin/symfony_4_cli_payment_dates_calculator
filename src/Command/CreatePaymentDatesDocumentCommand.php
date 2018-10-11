@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-
 /**
  * This is a Command class to create a CSV document with payment dates.
  *
@@ -60,7 +59,7 @@ class CreatePaymentDatesDocumentCommand extends Command
     /**
      * Generate CSV document with payment dates to specified path
      *
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return int|null|void

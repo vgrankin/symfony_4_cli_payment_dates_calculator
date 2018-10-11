@@ -45,10 +45,9 @@ class PaymentDatesCalculator extends AbstractBaseService
      *
      * @return ConstraintViolationListInterface
      */
-    public function getGetPaymentDatesTableViolations(
-        string $yearMonth,
-        int $monthsCount
-    ): ConstraintViolationListInterface {
+    public function getGetPaymentDatesTableViolations(string $yearMonth, int $monthsCount)
+    : ConstraintViolationListInterface
+    {
         $data = [
             'year_month' => $yearMonth,
             'months_count' => $monthsCount,
