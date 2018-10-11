@@ -27,8 +27,7 @@ class CreateUserCommandTest extends BaseTestCase
         }
     }
 
-    public function testExecute____When_Calling_Command_With_Correct_Path_And_Data____CSV_Document_Is_Saved_To_Given_Path(
-    )
+    public function testExecute____When_Calling_Command_With_Correct_Path_And_Data____CSV_Document_Is_Saved_To_Given_Path()
     {
         $kernel = static::createKernel();
         $application = new Application($kernel);
