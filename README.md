@@ -16,7 +16,7 @@ This CLI app was developed according to the following requirements:
     
     Business Rules
     
-    Company X need to calculate when to pay their telesales staff. They are paid both a basic salary 
+    Company X need to calculate when to pay their staff. They are paid both a basic salary 
     and a bonus, but not at the same time. The following business logic is in place:
     
     ● Staff get their basic monthly pay (salary), plus a bonus
